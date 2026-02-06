@@ -1,12 +1,12 @@
 #vertex
-#version 460 core
+#version 410 core
 layout (location = 0) in vec3 VertPosition;
 layout (location = 1) in vec2 VertTexCoord;
 layout (location = 2) in vec2 VertLightmap;
 
-layout (location = 0) uniform mat4 ProjectionMatrix;
-layout (location = 1) uniform mat4 ViewMatrix;
-layout (location = 2) uniform mat4 ModelMatrix;
+uniform mat4 ProjectionMatrix;
+uniform mat4 ViewMatrix;
+uniform mat4 ModelMatrix;
 
 out vec2 UV;
 out vec2 LightmapUV;
@@ -20,7 +20,7 @@ void main()
 }
 
 #fragment
-#version 460 core
+#version 410 core
 out vec4 FragColor;
 
 in vec2 UV;

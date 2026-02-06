@@ -44,10 +44,15 @@ FPS: ~270
 DRAW CALLS: 6500
 */
 
-int SDL_main(int ArgCount, char **ArgValues)
+int main(int ArgCount, char **ArgValues)
 {
     SDL_Init(SDL_INIT_VIDEO);
     
+    // Request OpenGL 4.1 core profile (required for macOS compatibility)
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
     Window = SDL_CreateWindow(
         "Harm",
@@ -66,11 +71,17 @@ int SDL_main(int ArgCount, char **ArgValues)
     SDL_ShowWindow(Window);
     SDL_GL_SetSwapInterval(0);
 
+    if (ArgCount < 2)
+    {
+        printf("Usage: %s <path_to_bsp_file>\n", ArgValues[0]);
+        return 1;
+    }
+
     // Init resources
-    LoadShader("shaders/surface.glsl", "SurfaceShader");
-    LoadShader("shaders/sky.glsl", "SkyShader");
-    LoadShader("shaders/gui.glsl", "GuiShader");
-    LoadShader("shaders/debug.glsl", "DebugShader");
+    LoadShader("data/shaders/surface.glsl", "SurfaceShader");
+    LoadShader("data/shaders/sky.glsl", "SkyShader");
+    LoadShader("data/shaders/gui.glsl", "GuiShader");
+    LoadShader("data/shaders/debug.glsl", "DebugShader");
 
     GuiInit();
 

@@ -66,8 +66,15 @@ static u32 BuildTexture(u8 *MiptexData, s32 Width, s32 Height, s32 Offset,  s32 
         {
             s32 MiptexIndex = ((X + Offset) + Y * Pitch);
             s32 PixelIndex = X + Y * Width;
-            color Color = ColorPalette[MiptexData[MiptexIndex]];
-            PixelBuffer[PixelIndex] = { Color.R, Color.G, Color.B };
+            if (ColorPalette)
+            {
+                color Color = ColorPalette[MiptexData[MiptexIndex]];
+                PixelBuffer[PixelIndex] = { Color.R, Color.G, Color.B };
+            }
+            else
+            {
+                PixelBuffer[PixelIndex] = { (u8)MiptexData[MiptexIndex], (u8)MiptexData[MiptexIndex], (u8)MiptexData[MiptexIndex] };
+            }
         }
     }
     u32 Result = CreateTexture(PixelBuffer, Width, Height, GL_RGB, Filter, GL_REPEAT, 1);
@@ -112,7 +119,12 @@ static void MapInitMaterials()
 
 static void MapInitTextures()
 {
-    color *ColorPalette = LoadColorPalette("quake_palette.pal");
+    color *ColorPalette = LoadColorPalette("data/quake_palette.pal");
+    if (!ColorPalette)
+    {
+        printf("Error: quake_palette.pal not found. Textures will not be loaded correctly.\n");
+        // We might want to return here or provide a fallback, but let's at least prevent the crash.
+    }
     s32 NumTextures = LoadedMap.MiptexLump->MiptexCount;
 
     s32 MaxTextureWidth = 256;
@@ -401,6 +413,11 @@ static void MapInitMeshes()
 static void LoadMap(const char *Filename)
 {
     bsp_header *Header = LoadBSP(Filename);
+    if (!Header)
+    {
+        printf("Error: Could not load BSP file: %s\n", Filename);
+        return;
+    }
     MapInitBSP(Header);
     MapInitMaterials();
     MapInitTextures();

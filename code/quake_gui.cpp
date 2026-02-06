@@ -42,7 +42,11 @@ static void DrawText(bitmap_font Font, SDL_Surface *DstSurface, s32 X, s32 Y, co
 
 static void GuiInit()
 {
-    GuiState.Font = LoadBitmapFont("images/characters.bmp", 7, 9);
+    GuiState.Font = LoadBitmapFont("data/images/characters.bmp", 7, 9);
+    if (!GuiState.Font.Surface)
+    {
+        printf("Error: Could not load data/images/characters.bmp\n");
+    }
 
     GuiState.Canvas = SDL_CreateRGBSurfaceWithFormat(SDL_SWSURFACE, VIDEO_WIDTH, VIDEO_HEIGHT, 32, SDL_PIXELFORMAT_RGBA8888);
     SDL_FillRect(GuiState.Canvas, 0, 0);

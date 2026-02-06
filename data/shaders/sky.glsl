@@ -1,13 +1,13 @@
 #vertex
-#version 460 core
+#version 410 core
 layout (location = 0) in vec3 Position;
 layout (location = 1) in vec2 TexCoord;
 layout (location = 2) in vec2 Lightmap;
 
-layout (location = 0) uniform mat4 ProjectionMatrix;
-layout (location = 1) uniform mat4 ViewMatrix;
-layout (location = 2) uniform mat4 ModelMatrix;
-layout (location = 3) uniform vec3 CameraPosition;
+uniform mat4 ProjectionMatrix;
+uniform mat4 ViewMatrix;
+uniform mat4 ModelMatrix;
+uniform vec3 CameraPosition;
 
 out vec3 SkyTexCoord;
 
@@ -19,7 +19,7 @@ void main()
 }
 
 #fragment
-#version 460 core
+#version 410 core
 out vec4 FragColor;
 
 in vec3 SkyTexCoord;

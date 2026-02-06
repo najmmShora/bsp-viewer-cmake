@@ -1,5 +1,5 @@
 #vertex
-#version 460 core
+#version 410 core
 layout (location = 0) in vec3 Position;
 layout (location = 1) in vec2 TexCoord;
 
@@ -12,7 +12,7 @@ void main()
 }
 
 #fragment
-#version 460 core
+#version 410 core
 in vec2 UV;
 out vec4 FragColor;
 
